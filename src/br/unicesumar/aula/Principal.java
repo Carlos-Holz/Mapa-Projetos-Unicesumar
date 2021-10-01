@@ -5,6 +5,7 @@ import br.unicesumar.aula.controle.ProjetoImpl;
 import br.unicesumar.aula.exceptions.DadoConsultadoException;
 import br.unicesumar.aula.modelo.Projeto;
 
+import java.io.Closeable;
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
@@ -23,12 +24,13 @@ public class Principal {
 			System.out.println("5 - Excluir");
 			System.out.println("0 - Sair");
 			Scanner scannerMenu = new Scanner(System.in);
+			System.out.print("\nInforme a opção desejada: ");
 			opcao = scannerMenu.nextInt();
 			try {
 				switch (opcao) {
 				case 1:
 					Projeto projeto = new Projeto();
-					projeto.setNome(coletarTexto("Digite o nome do projeto"));
+					projeto.setNome(coletarTexto("\nDigite o nome do projeto"));
 					projeto.setObjetivo(coletarTexto("Digite os objetivos do projeto"));
 					projeto.setNecessidades(coletarTexto("Digite as necessidades do projeto"));
 					projeto.setDataInicio(coletarTexto("Digite a data de início do projeto"));
@@ -38,7 +40,7 @@ public class Principal {
 					break;
 				case 2:
 					String nomeConsultaAlterar = coletarTexto(
-							"Digite o nome do projeto que está buscando para alterar");
+							"\nDigite o nome do projeto que está buscando para alterar");
 					Projeto projetoNovo = new Projeto();
 					projetoNovo.setNome(coletarTexto("Digite o nome do projeto"));
 					projetoNovo.setObjetivo(coletarTexto("Digite os objetivos do projeto"));
@@ -52,13 +54,13 @@ public class Principal {
 					System.out.println(dao.listar());
 					break;
 				case 4:
-					String nomeConsultado = coletarTexto("Digite o nome do projeto que está buscando");
+					String nomeConsultado = coletarTexto("\nDigite o nome do projeto que está buscando");
 					Projeto projetoEncontrado = dao.consultarPorNome(nomeConsultado);
 					System.out.println(projetoEncontrado);
 					break;
 				case 5:
 					String nomeConsultaExcluir = coletarTexto(
-							"Digite o nome do projeto que está buscando para excluir");
+							"\nDigite o nome do projeto que está buscando para excluir");
 					dao.excluir(nomeConsultaExcluir);
 					break;
 				case 0:
@@ -66,13 +68,13 @@ public class Principal {
 				}
 
 			} catch (InputMismatchException e) {
-				System.out.println("Não foi possível registrar corretamente a sua opção.");
+				System.out.println("\nNão foi possível registrar corretamente a sua opção.");
 			} catch (ParseException | DateTimeParseException e) {
-				System.out.println("Não foi possível converter a data, tente informar dd/mm/aaaa");
+				System.out.println("\nNão foi possível converter a data, tente informar dd/mm/aaaa");
 			} catch (DadoConsultadoException e) {
 				System.out.println(e.getMessage());
 			}
-			coletarTexto("----");
+			coletarTexto("\n ---- ENTER ----\n");
 		} while (opcao != 0);
 	}
 

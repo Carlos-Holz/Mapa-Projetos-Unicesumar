@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProjetoDAO {
 
-	void adicionar(Projeto projeto);
+	void adicionar(Projeto projeto) throws DadoConsultadoException;
 
 	List<Projeto> listar();
 

@@ -12,7 +12,12 @@ public class ProjetoImpl implements ProjetoDAO {
 	private static Set<Projeto> projetos = new HashSet<>();
 
 	@Override
-	public void adicionar(Projeto projeto) {
+	public void adicionar(Projeto projeto) throws DadoConsultadoException {
+		for (Projeto projeto1 : projetos) {
+			if (projeto.getNome().equalsIgnoreCase(projeto1.getNome())) {
+				throw new DadoConsultadoException("Projeto já cadastrado com esse nome!");
+			}
+		}
 		projetos.add(projeto);
 	}
 
@@ -30,7 +35,7 @@ public class ProjetoImpl implements ProjetoDAO {
 				return projeto;
 			}
 		}
-		throw new DadoConsultadoException("Projeto não encontrado com este nome! " + nome);
+		throw new DadoConsultadoException("Projeto não encontrado com este nome: " + nome);
 	}
 
 	@Override
@@ -46,16 +51,19 @@ public class ProjetoImpl implements ProjetoDAO {
 	}
 
 	@Override
-	public void excluir(Projeto projeto) throws DadoConsultadoException{
-		if (projetos.contains(projeto)) {
-			projetos.remove(projeto);
-			return;
+	public void excluir(Projeto projeto) throws DadoConsultadoException {
+		for (Projeto projeto1 : projetos) {
+			if (projeto.getNome().equalsIgnoreCase(projeto1.getNome())) {
+				projetos.remove(projeto1);
+
+			} else {
+				throw new DadoConsultadoException("Projeto não encontrado para efetuar a exclusão!");
+			}
 		}
-		throw new DadoConsultadoException("Projeto não encontrado para efetuar a exclusão!");
 	}
 
 	@Override
-	public void excluir(String nome) throws DadoConsultadoException{
+	public void excluir(String nome) throws DadoConsultadoException {
 		Projeto projeto = consultarPorNome(nome);
 		this.excluir(projeto);
 	}
